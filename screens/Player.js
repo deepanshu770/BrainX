@@ -10,7 +10,7 @@ import {
   View,
 } from "react-native";
 import Slider from "@react-native-community/slider";
-import Sound from "react-native-sound";
+
 import { SafeAreaView } from "react-native-safe-area-context";
 import Ionicons from "react-native-vector-icons/Ionicons";
 // import Artwork from './components of Player/ArtWork'
@@ -23,10 +23,9 @@ import { SharedElement } from "react-navigation-shared-element";
 
 
 const { width, height } = Dimensions.get("window");
-Sound.setCategory("Playback");
+
 const Player = ({ navigation, route }) => {
   const ref = useRef(false);
-  const [playback, setplayback] = useState(false);
   const item = route.params;
   const iconAnimaton = {
     0: { opacity: 0, transform: [{ scale: 0 }] },
@@ -36,39 +35,15 @@ const Player = ({ navigation, route }) => {
     0: { width: 0 },
     1: { width: width },
   };
-  const song = new Sound(item.uri, Sound.MAIN_BUNDLE, (error) => {
-    if (error) {
-      console.log("failed to load the sound", error);
-      return;
-    }
-    // loaded successfully
-    console.log(
-      "duration in seconds: " +
-        song.getDuration() +
-        "number of channels: " +
-        song.getNumberOfChannels()
-    );
-  });
 
-  const playpauseSound = () => {
-    if (!ref.current) {
-      console.log("play");
-      song.play();
 
-      ref.current = true;
-    } else {
-      console.log("pause");
-      song.pause();
-      ref.current = false;
-    }
-  };
+
 
 
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: item.bgColor }}>
       <StatusBar hidden />
-      <TouchableOpacity onPress={() => {navigation.goBack();
-      song.pause();}}>
+      <TouchableOpacity onPress={() => navigation.goBack()}>
         <Ionicons style={styles.icon} name="close" size={35} />
       </TouchableOpacity>
       <View>
@@ -125,8 +100,7 @@ const Player = ({ navigation, route }) => {
           marginTop: 30,
         }}
       >
-        <Pressable onPress={()=>{playpauseSound()
-        }}>
+        <Pressable >
           <Ionicons
             color="black"
             size={45}

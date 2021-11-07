@@ -1,113 +1,64 @@
-/**
- * Sample React Native App
- * https://github.com/facebook/react-native
- *
- * @format
- * @flow strict-local
- */
+import React from "react";
+import { NavigationContainer } from "@react-navigation/native";
+import { createStackNavigator } from "@react-navigation/stack";
+import { Text,View,Button,ScrollView } from "react-native";
+import Onboard from "./screens/Onboard";
+// import Main from "./screens/Main";
+import { scrollTo, useAnimatedRef, useDerivedValue, useSharedValue } from "react-native-reanimated";
 
-import React from 'react';
-import TrackPlayer from 'react-native-track-player';
-import type {Node} from 'react';
-import {
-  SafeAreaView,
-  ScrollView,
-  StatusBar,
-  StyleSheet,
-  Text,
-  useColorScheme,
-  View,
-} from 'react-native';
-
-import {
-  Colors,
-  DebugInstructions,
-  Header,
-  LearnMoreLinks,
-  ReloadInstructions,
-} from 'react-native/Libraries/NewAppScreen';
-
-const Section = ({children, title}): Node => {
-  const isDarkMode = useColorScheme() === 'dark';
+const App = () => {
+  const Stack = createStackNavigator();
+  // const Comp = () => {
+  //   const aref = useAnimatedRef();
+  //   const scroll = useSharedValue(0);
+  
+  //   useDerivedValue(() => {
+  //     scrollTo(aref, 0, scroll.value * 100, true);
+  //   });
+  
+  //   const items = Array.from(Array(10).keys());
+  
+  //   return (
+  //     <View>
+  //       <Button
+  //         title="scroll down"
+  //         onPress={() => {
+  //           scroll.value = scroll.value + 1;
+  //           if (scroll.value >= 10) scroll.value = 0;
+  //         }}
+  //       />
+  //       <View style={{ width: 120, height: 200, backgroundColor: 'green' }}>
+  //         <ScrollView
+  //           ref={aref}
+  //           style={{ backgroundColor: 'orange', width: 120 }}>
+  //           {items.map((_, i) => (
+  //             <View
+  //               key={i}
+  //               style={{
+  //                 backgroundColor: 'white',
+  //                 width: 100,
+  //                 height: 100,
+  //                 margin: 10,
+  //               }}
+  //             />
+  //           ))}
+  //         </ScrollView>
+  //       </View>
+  //     </View>
+  //   );
+  // };
   return (
-    <View style={styles.sectionContainer}>
-      <Text
-        style={[
-          styles.sectionTitle,
-          {
-            color: isDarkMode ? Colors.white : Colors.black,
-          },
-        ]}>
-        {title}
-      </Text>
-      <Text
-        style={[
-          styles.sectionDescription,
-          {
-            color: isDarkMode ? Colors.light : Colors.dark,
-          },
-        ]}>
-        {children}
-      </Text>
-    </View>
+    <>
+      <NavigationContainer>
+        <Stack.Navigator screenOptions={{ headerShown: false }}>
+          <Stack.Screen name="Onboard" component={Onboard} />
+          {/* <Stack.Screen name="Main" component={Main} />  */}
+         </Stack.Navigator>
+      </NavigationContainer> 
+  {/* <Comp/> */}
+  
+    </>
   );
 };
-
-const App: () => Node = () => {
-  const isDarkMode = useColorScheme() === 'dark';
-
-  const backgroundStyle = {
-    backgroundColor: isDarkMode ? Colors.darker : Colors.lighter,
-  };
-
-  return (
-    <SafeAreaView style={backgroundStyle}>
-      <StatusBar barStyle={isDarkMode ? 'light-content' : 'dark-content'} />
-      <ScrollView
-        contentInsetAdjustmentBehavior="automatic"
-        style={backgroundStyle}>
-        <Header />
-        <View
-          style={{
-            backgroundColor: isDarkMode ? Colors.black : Colors.white,
-          }}>
-          <Section title="Step One">
-            Edit <Text style={styles.highlight}>App.js</Text> to change this
-            screen and then come back to see your edits.
-          </Section>
-          <Section title="See Your Changes">
-            <ReloadInstructions />
-          </Section>
-          <Section title="Debug">
-            <DebugInstructions />
-          </Section>
-          <Section title="Learn More">
-            Read the docs to discover what to do next:
-          </Section>
-          <LearnMoreLinks />
-        </View>
-      </ScrollView>
-    </SafeAreaView>
-  );
-};
-
-const styles = StyleSheet.create({
-  sectionContainer: {
-    marginTop: 32,
-    paddingHorizontal: 24,
-  },
-  sectionTitle: {
-    fontSize: 24,
-    fontWeight: '600',
-  },
-  sectionDescription: {
-    marginTop: 8,
-    fontSize: 18,
-    fontWeight: '400',
-  },
-  highlight: {
-    fontWeight: '700',
-  },
-});
 
 export default App;
