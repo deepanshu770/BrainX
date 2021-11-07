@@ -3,7 +3,7 @@ import { NavigationContainer } from "@react-navigation/native";
 import { createStackNavigator } from "@react-navigation/stack";
 import { Text,View,Button,ScrollView } from "react-native";
 import Onboard from "./screens/Onboard";
-// import Main from "./screens/Main";
+import Main from "./screens/Main";
 import { scrollTo, useAnimatedRef, useDerivedValue, useSharedValue } from "react-native-reanimated";
 
 const App = () => {
@@ -52,7 +52,7 @@ const App = () => {
       <NavigationContainer>
         <Stack.Navigator screenOptions={{ headerShown: false }}>
           <Stack.Screen name="Onboard" component={Onboard} />
-          {/* <Stack.Screen name="Main" component={Main} />  */}
+          <Stack.Screen name="Main" component={Main} /> 
          </Stack.Navigator>
       </NavigationContainer> 
   {/* <Comp/> */}

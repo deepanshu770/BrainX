@@ -104,7 +104,7 @@ const Player = ({ navigation, route }) => {
           <Ionicons
             color="black"
             size={45}
-            name={playback ? "pause" : "play"}
+            name={"play"}
           />
         </Pressable>
         <Animatable.View

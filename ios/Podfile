@@ -12,6 +12,10 @@ target 'BinauralBeatsApplication' do
     :hermes_enabled => false
   )
 
+  pod 'RNVectorIcons', :path => '../node_modules/react-native-vector-icons'
+
+  pod 'RNSharedElement', :path => '../node_modules/react-native-shared-element'
+
   target 'BinauralBeatsApplicationTests' do
     inherit! :complete
     # Pods for testing
