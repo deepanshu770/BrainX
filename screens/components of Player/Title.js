@@ -2,7 +2,7 @@ import React from "react";
 
 import {StatusBar,Dimensions, StyleSheet, Text, View } from "react-native";
 const { height, width } = Dimensions.get("window");
-const topMargin =StatusBar.currentHeight+10
+const topMargin =StatusBar.currentHeight+3
 import * as Animatable from 'react-native-animatable'
 const Title = ({title,frequency_gap,color}) => {
 //  const frequency_gap='hguiuif'

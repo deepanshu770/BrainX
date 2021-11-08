@@ -252,6 +252,7 @@ const styles = StyleSheet.create({
     transform: [{ scale: 1.2 }],
   },
   desc: {
+    color:'black',
     fontSize: 17,
     textAlign: "center",
     fontFamily: "NunitoSans-Regular",

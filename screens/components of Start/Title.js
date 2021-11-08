@@ -1,6 +1,6 @@
 import React, { memo } from 'react'
 import { View, Text, StyleSheet, Dimensions } from 'react-native'
-import { interpolate, useAnimatedStyle } from 'react-native-reanimated';
+import { color, interpolate, useAnimatedStyle } from 'react-native-reanimated';
 import Animated from 'react-native-reanimated';
 const { height, width } = Dimensions.get('window');
 const titleContainerHeight = 40;
@@ -33,7 +33,7 @@ const Title = ({scrollX,beatsData}) => {
                   height: titleContainerHeight,
                 },animatedStyle]}>
                 <Text style={styles.title}>{item.title}</Text>
-                <Text style={styles.frequency}>{item.frequency_gap}</Text>
+                <Text style={[styles.frequency,{color:item.color}]}>{item.frequency_gap}</Text>
               </Animated.View>
             );
           })}

@@ -73,7 +73,7 @@ const Start = ({ navigation }) => {
 
   return (
     <SafeAreaView style={styles.container}>
-      <StatusBar hidden />
+    
       <Animated.ScrollView
         horizontal
         ref={scrollRef}
