@@ -1,4 +1,4 @@
-import React, { useCallback, useEffect, useRef, useState } from "react";
+import React, {  useEffect, useState } from "react";
 
 import {
   StyleSheet,
@@ -11,7 +11,6 @@ import {
   StatusBar,
 } from "react-native";
 import beatsData from "../data/BeatsData";
-// import ImageSlider from "./components of Start/ImageSlider";
 import Title from "./components of Start/Title";
 import BottomBar from "./components of Start/BottomBar";
 import PlayButton from "./components of Start/PlayButton";
@@ -26,7 +25,7 @@ import Animated, {
   useDerivedValue
 } from "react-native-reanimated";
 import * as Animatable from "react-native-animatable";
-import { TouchableOpacity } from "react-native-gesture-handler";
+
 
 const { height, width } = Dimensions.get("window");
 
@@ -73,7 +72,7 @@ const Start = ({ navigation }) => {
 
   return (
     <SafeAreaView style={styles.container}>
-    
+    <StatusBar backgroundColor='rgb(240, 240, 240)' barStyle='dark-content'/>
       <Animated.ScrollView
         horizontal
         ref={scrollRef}
@@ -108,12 +107,6 @@ const Start = ({ navigation }) => {
         })}
       </Animated.ScrollView>
 
-      {/* <ImageSlider
-        scrollX={scrollX}
-        beatsData={beatsData}
-        updateSlideIndex={updateSlideIndex}
-        scrollHandler={scrollHandler}
-      /> */}
       <Title scrollX={scrollX} beatsData={beatsData} />
       <View style={{ overflow: "hidden" }}>
         <Animated.View

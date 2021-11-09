@@ -51,7 +51,7 @@ const App = () => {
     <>
       <NavigationContainer>
         <Stack.Navigator screenOptions={{ headerShown: false }}>
-          <Stack.Screen name="Onboard" component={Onboard} />
+          {/* <Stack.Screen name="Onboard" component={Onboard} /> */}
           <Stack.Screen name="Main" component={Main} /> 
          </Stack.Navigator>
       </NavigationContainer> 

@@ -1,8 +1,8 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   Dimensions,
   Image,
-  Pressable,
+  
   StatusBar,
   StyleSheet,
   Text,
@@ -13,66 +13,65 @@ import Slider from "@react-native-community/slider";
 
 import { SafeAreaView } from "react-native-safe-area-context";
 import Ionicons from "react-native-vector-icons/Ionicons";
-// import Artwork from './components of Player/ArtWork'
+import MaterialCommunityIcons from "react-native-vector-icons/MaterialCommunityIcons";
+
 import * as Animatable from "react-native-animatable";
 
 import Title from "./components of Player/Title";
-// import Artwork from "./components of Player/ArtWork";
+
 
 import { SharedElement } from "react-navigation-shared-element";
-// import TrackPlayer,{
-//   useProgress,
-//   usePlaybackState,
-//   State
-// } from "react-native-track-player";
-import TrackPlayer, { Capability, State, usePlaybackState, useProgress } from "react-native-track-player";
+
+import TrackPlayer, {
+  Capability,
+  RepeatMode,
+  State,
+  usePlaybackState,
+  useProgress,
+} from "react-native-track-player";
 import { useSharedValue } from "react-native-reanimated";
 
 const { width, height } = Dimensions.get("window");
 
-
 const Player = ({ navigation, route }) => {
-  const slideValue =useSharedValue();
+  const slideValue = useSharedValue();
+  const [repeat, setRepeat] = useState(false);
+  const [playBack, setplayBack] = useState(true)
   const playBackState = usePlaybackState();
-  const progress = useProgress()
+  const progress = useProgress();
   const item = route.params;
   useEffect(() => {
     setUpPlayer();
-   
-  }, [])
-  const setUpPlayer =async()=>{
+  }, []);
+  const setUpPlayer = async () => {
     try {
       await TrackPlayer.setupPlayer({
-        waitForBuffer:true,
+        waitForBuffer: true,
       });
       await TrackPlayer.updateOptions({
-        capabilities:[Capability.Pause,Capability.Play]
-      })
+        capabilities: [Capability.Pause, Capability.Play],
+      });
       await TrackPlayer.add(item);
-      
+      TrackPlayer.play();
     } catch (error) {
       console.log(error);
     }
-  }
+  };
 
-  const togglePlayBack = async()=>{
- 
+  const togglePlayBack = async () => {
     const currentTrack = TrackPlayer.getCurrentTrack();
-   
-    if(currentTrack){
-      if(playBackState==State.Paused){
+
+    if (currentTrack) {
+      if (playBackState == State.Paused) {
         TrackPlayer.play();
-      }
-      else{
+        setplayBack(true);
+      } else {
         TrackPlayer.pause();
-        
+        setplayBack(false);
       }
     }
-  }
-  
+  };
 
-    
-   
   const iconAnimaton = {
     0: { opacity: 0, transform: [{ scale: 0 }] },
     1: { opacity: 1, transform: [{ scale: 1 }] },
@@ -81,22 +80,31 @@ const Player = ({ navigation, route }) => {
     0: { width: 0 },
     1: { width: width },
   };
-  const timeAnimation={
-    0:{opacity: 0},
-    1:{opacity: 1},
-  }
-  const changeHandler =async(value)=>{
+  const timeAnimation = {
+    0: { opacity: 0 },
+    1: { opacity: 1 },
+  };
+  const changeHandler = async (value) => {
     await TrackPlayer.seekTo(value);
     console.log(playBackState);
-  }
-
-
-
-
+  };
+  const toggleRepeat = async () => {
+    if (repeat) {
+      await TrackPlayer.setRepeatMode(RepeatMode.Off);
+      setRepeat(false);
+      const mode =TrackPlayer.getRepeatMode();
+      console.log(mode);
+    } else {
+      await TrackPlayer.setRepeatMode(RepeatMode.Track);
+      setRepeat(true);
+      const mode =TrackPlayer.getRepeatMode();
+      console.log(mode);
+    }
+  };
 
   return (
     <SafeAreaView style={{ flex: 1, backgroundColor: item.bgColor }}>
-      
+    <StatusBar backgroundColor={item.bgColor}/>
       <View>
         <Title
           title={item.title}
@@ -113,16 +121,17 @@ const Player = ({ navigation, route }) => {
           </SharedElement>
         </View>
       </View>
+      <View style>
       <Animatable.View
         animation={sliderBarAnimation}
         delay={500}
         duration={700}
+    
         style={{
           marginTop: 35,
           justifyContent: "center",
           alignItems: "center",
           overflow: "hidden",
-          
         }}
       >
         <Slider
@@ -132,40 +141,51 @@ const Player = ({ navigation, route }) => {
           value={progress.position}
           maximumValue={progress.duration}
           minimumValue={0}
-      
           minimumTrackTintColor={item.color}
           maximumTrackTintColor="black"
           // onValueChange={(value) => console.log(value)}
           onSlidingComplete={changeHandler}
         />
       </Animatable.View>
-      <View style={{
-        justifyContent:'center',
-        alignItems:'center'
-      }}>
-      <Animatable.View
-      // animation={timeAnimation}
-      // duration={600}
-      // delay={500}
-      style={{
-      
-      height:30,
-      marginTop:12,
-      width:width*.9,
-      flexDirection:"row",
-      justifyContent:'space-between'
-      }}>
-        <Text style={{
-          fontSize:20,
-          fontWeight:'500',
-          color:item.color
-        }}>{new Date(progress.position*1000).toISOString().substr(14,5)}</Text>
-        <Text style={{
-          fontSize:20,
-          fontWeight:'500',
-          color:item.color
-        }}>{new Date((progress.duration)*1000).toISOString().substr(14,5)}</Text>
-      </Animatable.View>
+      </View>
+      <View
+        style={{
+          justifyContent: "center",
+          alignItems: "center",
+        }}
+      >
+        <Animatable.View
+          animation={timeAnimation}
+          duration={2000}
+          delay={800}
+          useNativeDriver
+          style={{
+            height: 30,
+            marginTop: 12,
+            width: width * 0.9,
+            flexDirection: "row",
+            justifyContent: "space-between",
+          }}
+        >
+          <Text
+            style={{
+              fontSize: 20,
+              fontWeight: "500",
+              color: item.color,
+            }}
+          >
+            {new Date(progress.position * 1000).toISOString().substr(14, 5)}
+          </Text>
+          <Text
+            style={{
+              fontSize: 20,
+              fontWeight: "500",
+              color: item.color,
+            }}
+          >
+            {new Date(progress.duration * 1000).toISOString().substr(14, 5)}
+          </Text>
+        </Animatable.View>
       </View>
       <Animatable.View
         animation={iconAnimaton}
@@ -175,16 +195,17 @@ const Player = ({ navigation, route }) => {
         style={{
           justifyContent: "center",
           alignItems: "center",
-          
-
           marginTop: 30,
         }}
       >
-        <TouchableOpacity onPress={()=>togglePlayBack()}>
+        <TouchableOpacity onPress={() => togglePlayBack()}>
           <Ionicons
             color="black"
             size={45}
-            name={playBackState==State.Paused?"play":playBackState==State.Buffering?"pause":"pause"}
+            name={playBack?"pause":
+              "play"
+               
+            }
           />
         </TouchableOpacity>
         <Animatable.View
@@ -192,11 +213,29 @@ const Player = ({ navigation, route }) => {
           delay={300}
           useNativeDriver
           duration={700}
-          style={{ alignItems: "center", position: "absolute", right: 30 }}
+          style={{
+            alignItems: "center",
+            justifyContent: "center",
+            position: "absolute",
+            right: 30,
+          }}
         >
-          <TouchableOpacity onPress={()=>{TrackPlayer.pause()}}>
-            <Ionicons color="grey" size={35} name="repeat" />
-            <Text>Repeat</Text>
+          <TouchableOpacity
+            onPress={() => {
+              toggleRepeat();
+            }}
+          >
+            <MaterialCommunityIcons
+              style={{
+                left: 17,
+              }}
+              color={repeat?item.color:"grey"}
+              size={25}
+              name={repeat?"repeat-once":"repeat"}
+            />
+            <Text style={{
+              color:'black'
+            }}>{repeat?'Repeat On':'Repeat Off'}</Text>
           </TouchableOpacity>
         </Animatable.View>
       </Animatable.View>
