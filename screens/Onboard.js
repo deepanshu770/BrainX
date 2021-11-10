@@ -1,4 +1,4 @@
-import React, { useRef } from "react";
+import React, { memo, useEffect, useRef } from "react";
 import {
   View,
   Text,
@@ -19,9 +19,10 @@ import Animated, {
   useAnimatedStyle,
   useDerivedValue,
   useSharedValue,
+  withTiming,
 } from "react-native-reanimated";
 import { SafeAreaView } from "react-native-safe-area-context";
-import beatsData from "../data/BeatsData";
+
 
 const { height, width } = Dimensions.get("window");
 
@@ -47,7 +48,10 @@ export default function Onboard({ navigation }) {
     },
   ];
   const scrollX = useSharedValue(0);
-
+  useEffect(() => {
+    
+    console.log(currentSlideIndex);
+  }, [currentSlideIndex])
    useDerivedValue(()=>{
     scrollTo(ref,scrollIndex.value*width,0,true);
    },[])
@@ -61,22 +65,28 @@ export default function Onboard({ navigation }) {
     setcurrentSlideIndex(currentIndex);
   };
   const goToNext = () => {
-    scrollIndex.value = currentSlideIndex+1;
+    scrollIndex.value = withTiming(currentSlideIndex+1,{
+      duration:750
+    });
 
     setcurrentSlideIndex(currentSlideIndex+1);
   };
   const goToPrevious = () => {
-    scrollIndex.value = currentSlideIndex-1;
+    scrollIndex.value = withTiming(currentSlideIndex-1,{
+      duration:750
+    });
 
     setcurrentSlideIndex(currentSlideIndex-1);
   };
   const goTOEnd = () => {
-    scrollIndex.value = currentSlideIndex+(beatsData.length-1);
+    scrollIndex.value = withTiming(onBoardContent.length-1,{
+      duration:1000
+    });
 
-    setcurrentSlideIndex(currentSlideIndex+(beatsData.length-1));
+    setcurrentSlideIndex(onBoardContent.length-1);
   };
 
-  const Indicators = () => {
+  const Indicators =memo( () => {
     return (
       <>
         <View style={styles.indicator_container}>
@@ -110,7 +120,7 @@ export default function Onboard({ navigation }) {
         </View>
       </>
     );
-  };
+  });
 
   return (
     <SafeAreaView style={styles.container}>

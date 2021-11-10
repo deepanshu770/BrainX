@@ -1,6 +1,6 @@
 import React, { memo } from 'react'
 import FontAwesome5 from 'react-native-vector-icons/FontAwesome5';
-import { StyleSheet, Text, View,TouchableOpacity } from 'react-native'
+import { StyleSheet, View,TouchableOpacity } from 'react-native'
 import beatsData from '../../data/BeatsData';
 
 const PlayButton = ({ navigation,currentIndex }) => {

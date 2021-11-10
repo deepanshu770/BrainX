@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { memo, useEffect, useState } from "react";
 import {
   Dimensions,
   Image,
@@ -84,8 +84,8 @@ const Player = ({ navigation, route }) => {
     0: { opacity: 0 },
     1: { opacity: 1 },
   };
-  const changeHandler = async (value) => {
-    await TrackPlayer.seekTo(value);
+  const changeHandler =(value) => {
+    TrackPlayer.seekTo(value);
     console.log(playBackState);
   };
   const toggleRepeat = async () => {
@@ -143,6 +143,7 @@ const Player = ({ navigation, route }) => {
           minimumValue={0}
           minimumTrackTintColor={item.color}
           maximumTrackTintColor="black"
+          thumbTintColor={item.color363}
           // onValueChange={(value) => console.log(value)}
           onSlidingComplete={changeHandler}
         />
@@ -270,4 +271,4 @@ const styles = StyleSheet.create({
   },
 });
 
-export default Player;
+export default memo(Player);

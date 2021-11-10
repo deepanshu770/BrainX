@@ -77,7 +77,7 @@ const BottomBar = ({
                       color: currentIndex === index ? "black" : "grey",
                     }}
                     name={item.icon}
-                    size={35}
+                    size={30}
                   />
                 </TouchableOpacity>
               ) : (
@@ -95,7 +95,7 @@ const BottomBar = ({
                       color: currentIndex === index ? "black" : "grey",
                     }}
                     name={item.icon}
-                    size={35}
+                    size={30}
                   />
                 </TouchableOpacity>
               )}

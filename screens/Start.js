@@ -1,4 +1,4 @@
-import React, {  useEffect, useState } from "react";
+import React, { useCallback, useEffect, useState } from "react";
 
 import {
   StyleSheet,
@@ -22,25 +22,21 @@ import Animated, {
   useSharedValue,
   withTiming,
   scrollTo,
-  useDerivedValue
+  useDerivedValue,
 } from "react-native-reanimated";
 import * as Animatable from "react-native-animatable";
-
 
 const { height, width } = Dimensions.get("window");
 
 const Start = ({ navigation }) => {
-  // const delay = ms =>new Promise(resolve=>setTimeout(resolve,ms));
   const [currentIndex, setcurrentIndex] = useState(0);
-
   const viewTranslateY = useSharedValue(-200);
   const scrollOffset = useSharedValue(0);
-  const scrollRef = useAnimatedRef()
+  const scrollRef = useAnimatedRef();
 
-  useDerivedValue(()=>{
-    scrollTo(scrollRef,scrollOffset.value,0,true);
-    
-  },[])
+  useDerivedValue(() => {
+    scrollTo(scrollRef, scrollOffset.value, 0, true);
+  }, []);
 
   const rStyle = useAnimatedStyle(() => {
     return {
@@ -53,26 +49,23 @@ const Start = ({ navigation }) => {
       duration: 1000,
     });
   }, []);
-  const updateSlideIndex = (e) => {
+  const updateSlideIndex = useCallback((e) => {
     const currentIndex = Math.round(e.nativeEvent.contentOffset.x / width);
     setcurrentIndex(currentIndex);
     viewTranslateY.value = withTiming(0, {
       duration: 800,
     });
-  };
-
-  
+  });
 
   const scrollX = useSharedValue(0);
 
   const scrollHandler = useAnimatedScrollHandler((e) => {
     scrollX.value = e.contentOffset.x;
-  
   });
 
   return (
     <SafeAreaView style={styles.container}>
-    <StatusBar backgroundColor='rgb(240, 240, 240)' barStyle='dark-content'/>
+      <StatusBar backgroundColor="rgb(240, 240, 240)" barStyle="dark-content" />
       <Animated.ScrollView
         horizontal
         ref={scrollRef}
@@ -91,9 +84,8 @@ const Start = ({ navigation }) => {
         {beatsData.map((item, index) => {
           return (
             <Pressable
-              onPress={() =>
-                navigation.navigate("player", item)
-              }
+              key={index + "key"}
+              onPress={() => navigation.navigate("player", item)}
             >
               <View style={[styles.main_image_container]} key={index}>
                 <View>
@@ -150,8 +142,8 @@ const Start = ({ navigation }) => {
       </View>
       <PlayButton navigation={navigation} currentIndex={currentIndex} />
       <BottomBar
-      currentIndex={currentIndex}
-      setcurrentIndex={setcurrentIndex}
+        currentIndex={currentIndex}
+        setcurrentIndex={setcurrentIndex}
         scrollOffset={scrollOffset}
         beatsData={beatsData}
         scrollX={scrollX}
@@ -159,7 +151,6 @@ const Start = ({ navigation }) => {
     </SafeAreaView>
   );
 };
-
 
 export default Start;
 

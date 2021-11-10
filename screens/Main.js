@@ -1,13 +1,13 @@
 import React from "react";
-import { StyleSheet, Text, View } from "react-native";
-import { SafeAreaView } from "react-native-safe-area-context";
 import Player from "./Player";
 import Start from "./Start";
 import { createSharedElementStackNavigator } from "react-navigation-shared-element";
+import { NavigationContainer } from "@react-navigation/native";
 
 const Stack = createSharedElementStackNavigator();
 const Main=() =>{
   return (
+    <NavigationContainer independent={true}>
     <Stack.Navigator
       screenOptions={{
         headerShown: false,
@@ -19,6 +19,7 @@ const Main=() =>{
         return [route.params.id]
       }} />
     </Stack.Navigator>
+    </NavigationContainer>
   );
 }
 export default Main

@@ -1,7 +1,7 @@
 import React, { memo } from 'react'
 import { View, Text, StyleSheet, Dimensions } from 'react-native'
-import { color, interpolate, useAnimatedStyle } from 'react-native-reanimated';
-import Animated from 'react-native-reanimated';
+import Animated,{ interpolate, useAnimatedStyle } from 'react-native-reanimated';
+
 const { height, width } = Dimensions.get('window');
 const titleContainerHeight = 40;
 const Title = ({scrollX,beatsData}) => {
